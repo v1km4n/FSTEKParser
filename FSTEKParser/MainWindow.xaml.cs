@@ -281,7 +281,7 @@ namespace FSTEKParser
 
         private void PaginationUp_Click(object sender, RoutedEventArgs e)
         {
-            if (currentPage <= ((Threat.AllThreatsShort.Count + 1) / recordsPerPage))
+            if (currentPage <= Threat.AllThreatsShort.Count / recordsPerPage - 1)
             {
                 currentPage++;
                 ShortThreatListGrid.ItemsSource = Pagination(currentPage, recordsPerPage);
