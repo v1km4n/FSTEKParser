@@ -1,0 +1,23 @@
+﻿<Window x:Class="FSTEKParser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FSTEKParser"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="600">
+    <Grid>
+        <DataGrid x:Name="ShortThreatListGrid" SelectionChanged="DataGrid_SelectionChanged" HeadersVisibility="None" IsReadOnly="True" HorizontalAlignment="Center" Height="705" VerticalAlignment="Top">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
+        <Button x:Name="ExportToFile" Content="Экпортировать в файл" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,200,15" Height="25" Width="160" Click="ExportToFile_Click"/>
+        <Button x:Name="UpdateThreatList" Content="Обновить список" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,15" Height="25" Width="160" Click="UpdateThreatList_Click" />
+        <Button x:Name="PaginationDown" Content="&lt;" HorizontalAlignment="Left" Height="25" Margin="75,0,0,15" VerticalAlignment="Bottom" Width="25" Click="PaginationDown_Click"/>
+        <Button x:Name="PaginationUp" Content="&gt;" HorizontalAlignment="Left" Height="25" Margin="125,0,0,15" VerticalAlignment="Bottom" Width="25" Click="PaginationUp_Click"/>
+    </Grid>
+
+</Window>
