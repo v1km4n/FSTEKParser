@@ -17,23 +17,23 @@ namespace FSTEKParser
     /// <summary>
     /// Interaction logic for SingleThreatInfo.xaml
     /// </summary>
-    public partial class SingleThreatInfo : Window
+    public partial class TextBoxWindow : Window
     {
-        public SingleThreatInfo()
+        public TextBoxWindow()
         {
             InitializeComponent();
         }
-        public SingleThreatInfo(Threat threat)
+        public TextBoxWindow(Threat threat)
         {
             InitializeComponent();
             Title = $"{threat.ThreatId}. {threat.ThreatName}";
-            SingleThreatInfoTextBox.Text = threat.ToString();
+            TextBoxWindowTextBox.Text = threat.ToString();
         }
-        public SingleThreatInfo(string str, string title)
+        public TextBoxWindow(string str, string title)
         {
             InitializeComponent();
             Title = title;
-            SingleThreatInfoTextBox.Text = str;
+            TextBoxWindowTextBox.Text = str;
         }
     }
 }

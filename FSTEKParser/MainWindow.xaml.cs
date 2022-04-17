@@ -36,17 +36,13 @@ namespace FSTEKParser
             Title = "Угрозы безопасности ФСТЭК";
             ShortThreatListGrid.ItemsSource = Pagination(0, recordsPerPage);
         }
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             DataGridRow row = sender as DataGridRow;
             KeyValuePair<string, string> rowData = (KeyValuePair<string, string>)row.Item; // получили данные из ряда, по которому кликнули
             int threatID = Int32.Parse(rowData.Key.Substring(4));
 
-            SingleThreatInfo singleThreatInfoWindow = new SingleThreatInfo(Threat.AllThreats[threatID - 1]);
+            TextBoxWindow singleThreatInfoWindow = new TextBoxWindow(Threat.AllThreats[threatID - 1]);
             singleThreatInfoWindow.Show();
         }
         private void DownloadDatabase()
@@ -78,11 +74,6 @@ namespace FSTEKParser
                     Threat.AllThreatsShort.Add($"УБИ.{Int32.Parse(main.Cells[rowNum, 1].Value.ToString())}", main.Cells[rowNum, 2].Value.ToString());
                 }
             }
-        }
-        private void OpenThreatListGrid_Click(object sender, RoutedEventArgs e)
-        {
-            ThreatList threatList = new ThreatList();
-            threatList.Show();
         }
 
         private void UpdateThreatList_Click(object sender, RoutedEventArgs e)
@@ -219,7 +210,7 @@ namespace FSTEKParser
                 MessageBoxResult messageBoxResult = MessageBox.Show(messageBoxText, "Обновление списка угроз", MessageBoxButton.OK, MessageBoxImage.Information);
                 if ((messageBoxResult == MessageBoxResult.OK) && (changedThreats != 0)) // после нажатия на ОК, если есть изменения, выводим их подробным логом
                 {
-                    SingleThreatInfo singleThreatInfoWindow = new SingleThreatInfo(result, "Изменения списка угроз");
+                    TextBoxWindow singleThreatInfoWindow = new TextBoxWindow(result, "Изменения списка угроз");
                     singleThreatInfoWindow.Show();
                 }
             }
@@ -283,8 +274,7 @@ namespace FSTEKParser
         {
             if (currentPage <= Threat.AllThreatsShort.Count / recordsPerPage - 1)
             {
-                currentPage++;
-                ShortThreatListGrid.ItemsSource = Pagination(currentPage, recordsPerPage);
+                ShortThreatListGrid.ItemsSource = Pagination(++currentPage, recordsPerPage);
             }
         }
 
@@ -292,29 +282,28 @@ namespace FSTEKParser
         {
             if (currentPage != 0)
             {
-                currentPage--;
-                ShortThreatListGrid.ItemsSource = Pagination(currentPage, recordsPerPage);
+                ShortThreatListGrid.ItemsSource = Pagination(--currentPage, recordsPerPage);
             }
         }
-        public Dictionary<string, string> Pagination(int page, int recordsPerPage)
+        public Dictionary<string, string> Pagination(int pageNum, int recordsPerPage)
         {
-            Dictionary<string, string> temp = new Dictionary<string, string>();
+            Dictionary<string, string> page = new Dictionary<string, string>();
             // 0: 1 - 35 (0 * 35 + 1) = 1; (1 * 35) = 35
             // 1: 36 - 70 (1 * 35 + 1) = 36; (2 * 35) = 70 
-            // от page * 35 + 1 до (page + 1) * 35 
+            // от pageNum * recordsPerPage + 1 до (pageNum + 1) * recordsPerPage 
             foreach (var pair in Threat.AllThreatsShort)
             {
                 int threatID = Int32.Parse(pair.Key.Substring(4));
-                if ((threatID >= page * recordsPerPage + 1) && (threatID <= (page + 1) * recordsPerPage))
+                if ((threatID >= pageNum * recordsPerPage + 1) && (threatID <= (pageNum + 1) * recordsPerPage))
                 {
-                    temp.Add(pair.Key, pair.Value);
+                    page.Add(pair.Key, pair.Value);
                 }
-                if (threatID > (page + 1) * recordsPerPage)
+                if (threatID > (pageNum + 1) * recordsPerPage)
                 {
                     break;
                 }
             }
-            return temp;
+            return page;
         }
     }
 }
